@@ -6,6 +6,7 @@ from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 from time import time
 
+
 #linear regression
 ridge = Ridge()
 t0 = time()
@@ -22,6 +23,10 @@ print("Ridge Regression RMSE is:",np.sqrt(MSE))
 r2 = r2_score(y_test, y_predict)
 
 print("Ridge  r2 is:",r2)
+
+PMSE = MSE / (sum(y_test) / len(y_test))
+
+print("Percentage MSE is:", np.sqrt(PMSE))
 
 #plot the predicted v. actual
 

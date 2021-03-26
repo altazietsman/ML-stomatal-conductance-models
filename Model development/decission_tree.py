@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from time import time
 
 #linear regression
-dt = DecisionTreeRegressor(max_depth=5, random_state=20)
+dt = DecisionTreeRegressor(random_state=20)
 
 t0 = time()
 dt.fit(x_train,y_train)
@@ -23,6 +23,10 @@ print("Decision Tree RMSE is:",np.sqrt(MSE))
 r2 = r2_score(y_test, y_predict)
 
 print("Decision Tree Regression  r2 is:",r2)
+
+PMSE = MSE / (sum(y_test) / len(y_test))
+
+print("Percentage MSE is:", np.sqrt(PMSE))
 
 #plot the predicted v. actual
 

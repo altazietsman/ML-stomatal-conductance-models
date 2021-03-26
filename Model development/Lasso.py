@@ -24,6 +24,10 @@ r2 = r2_score(y_test, y_predict)
 
 print("lasso  r2 is:",r2)
 
+PMSE = MSE / (sum(y_test) / len(y_test))
+
+print("Percentage MSE is:", np.sqrt(PMSE))
+
 #plot the predicted v. actual
 
 y_plot = list(y_test)

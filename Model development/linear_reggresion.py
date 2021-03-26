@@ -24,10 +24,18 @@ r2 = r2_score(y_test, y_predict)
 
 print("Multivariate Regression  r2 is:",r2)
 
+PMSE = MSE / (sum(y_test) / len(y_test))
+
+print("Percentage MSE is:", np.sqrt(PMSE))
+
 #plot the predicted v. actual
 
 y_plot = list(y_test)
 
 plt.plot(y_predict)
 plt.plot(y_plot)
+plt.show()
+
+
+plt.plot(y_plot,y_predict,'o')
 plt.show()
