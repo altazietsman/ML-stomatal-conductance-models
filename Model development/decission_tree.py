@@ -1,10 +1,11 @@
-from preprocessing import x_train,x_test,y_train,y_test
+from preprocessing import x_train,x_test,y_train,y_test,x,y
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_squared_error
 import numpy as np
 from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 from time import time
+import pandas as pd
 
 #linear regression
 dt = DecisionTreeRegressor(random_state=20)
@@ -35,3 +36,15 @@ y_plot = list(y_test)
 plt.plot(y_predict)
 plt.plot(y_plot)
 plt.show()
+
+feature_importance = list(dt.feature_importances_)
+feature_names = list(x.columns)
+
+features_df = pd.DataFrame()
+features_df['feature'] = feature_names
+features_df['importance'] = feature_importance
+
+# re-organize it features
+features_df = features_df.sort_values('importance', ascending=False)
+
+print(features_df.round(1))

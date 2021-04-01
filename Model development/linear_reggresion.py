@@ -1,10 +1,11 @@
-from preprocessing import x_train,x_test,y_train,y_test
+from preprocessing import x_train,x_test,y_train,y_test, x, y
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 import numpy as np
 from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 from time import time
+import pandas as pd
 
 #linear regression
 lm = LinearRegression()
@@ -39,3 +40,7 @@ plt.show()
 
 plt.plot(y_plot,y_predict,'o')
 plt.show()
+
+coeff_df = pd.DataFrame(lm.coef_, x.columns, columns=['Coefficient'])
+coeff = coeff_df.sort_values(by='Coefficient', ascending=False)
+print(coeff)
