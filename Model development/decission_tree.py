@@ -48,3 +48,8 @@ features_df['importance'] = feature_importance
 features_df = features_df.sort_values('importance', ascending=False)
 
 print(features_df.round(1))
+
+DT = pd.DataFrame(y_predict)
+
+DT.to_csv("D:/Academic/Alta Phd/E-ML models/Results/DT.csv")
+features_df.to_csv("D:/Academic/Alta Phd/E-ML models/Results/DT_coeff.csv")

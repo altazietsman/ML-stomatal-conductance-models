@@ -44,3 +44,10 @@ plt.show()
 coeff_df = pd.DataFrame(lm.coef_, x.columns, columns=['Coefficient'])
 coeff = coeff_df.sort_values(by='Coefficient', ascending=False)
 print(coeff)
+
+ytest = pd.DataFrame(y_test)
+linear = pd.DataFrame(y_predict)
+
+ytest.to_csv("D:/Academic/Alta Phd/E-ML models/Results/y_test.csv")
+linear.to_csv("D:/Academic/Alta Phd/E-ML models/Results/linear.csv")
+coeff.to_csv("D:/Academic/Alta Phd/E-ML models/Results/linear_coeff.csv")

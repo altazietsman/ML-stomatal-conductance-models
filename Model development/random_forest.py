@@ -19,14 +19,19 @@ print("RF training time:", round(time() - t0, 3), "s")
 
 y_predict = rf.predict(x_test)
 
+RF = pd.DataFrame(y_predict)
+
+RF.to_csv("D:/Academic/Alta Phd/E-ML models/Results/RF.csv")
+
+
 # calculate MSE
 MSE = mean_squared_error(y_predict, y_test)
 
 print("Random Forest RMSE is:", np.sqrt(MSE))
 
-PMSE = MSE / (sum(y_test) / len(y_test))
+RMSE = MSE / (sum(y_test) / len(y_test))
 
-print("Percentage MSE is:", np.sqrt(PMSE))
+print("Percentage MSE is:", np.sqrt(RMSE))
 
 # calculate R-squared
 r2 = r2_score(y_test, y_predict)
@@ -55,6 +60,12 @@ features_df = features_df.sort_values('importance', ascending=False)
 
 print(features_df.round(1))
 
+DT = pd.DataFrame(y_predict)
+
+features_df.to_csv("D:/Academic/Alta Phd/E-ML models/Results/RF_coef.csv")
+
+
+
 # Bootstrapping
 
 rf_bag = BaggingRegressor(base_estimator=rf)
@@ -62,6 +73,12 @@ t1 = time()
 rf_bag.fit(x_train, y_train)
 print("RF bootstrap tarining time:", round(time() - t1, 3), "s")
 y_rf_bag_pred = rf_bag.predict(x_test)
+
+bootstrap = pd.DataFrame(y_rf_bag_pred)
+
+bootstrap.to_csv("D:/Academic/Alta Phd/E-ML models/Results/bootstrap.csv")
+
+
 
 MSE_ref_bag = mean_squared_error(y_rf_bag_pred, y_test)
 
@@ -89,6 +106,11 @@ rf_bst.fit(x_train, y_train)
 print("RF boosting training time:", round(time() - t2, 3), "s")
 
 y_rf_bst_pred = rf_bst.predict(x_test)
+
+boosting = pd.DataFrame(y_rf_bst_pred)
+
+boosting.to_csv("D:/Academic/Alta Phd/E-ML models/Results/boosting.csv")
+
 
 MSE_ref_bst = mean_squared_error(y_rf_bst_pred, y_test)
 
