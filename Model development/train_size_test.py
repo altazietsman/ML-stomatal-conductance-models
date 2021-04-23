@@ -1,0 +1,9 @@
+#test affect of training data size
+from preprocessing import x_train20,y_train20, x_test20, y_test20
+from preprocessing import x_train30,y_train30, x_test30, y_test30
+from preprocessing import x_train40,y_train40, x_test40, y_test40
+from preprocessing import x_train50,y_train50, x_test50, y_test50
+from preprocessing import x_train60,y_train60, x_test60, y_test60
+from preprocessing import x_train70,y_train70, x_test70, y_test70
+from preprocessing import x_train80,y_train80, x_test80, y_test80
+from preprocessing import x_train90,y_train90, x_test90, y_test90
