@@ -39,7 +39,6 @@ plt.show()
 
 feature_importance = list(dt.feature_importances_)
 feature_names = list(x.columns)
-
 features_df = pd.DataFrame()
 features_df['feature'] = feature_names
 features_df['importance'] = feature_importance
@@ -47,7 +46,7 @@ features_df['importance'] = feature_importance
 # re-organize it features
 features_df = features_df.sort_values('importance', ascending=False)
 
-print(features_df.round(1))
+print(features_df.round(3))
 
 DT = pd.DataFrame(y_predict)
 
