@@ -10,18 +10,33 @@ import numpy as np
 df_org = pd.read_excel('D:/Academic/Alta Phd/E-ML models/Input Data/df.xlsx')
 df_anddereg = pd.read_csv('D:/Academic/Alta Phd/E-ML models/Input Data/AllData_EcologyLetters_Figshare_v1_318.csv')
 
-df2 = df_anddereg[['Species','VPD','Tair','Patm','PARin','SWC','Cond']]
-df2 = df2.replace(-9999.0, np.nan)
+#convert LWP to SWC
+#the soil parameters for the van genuchten curves for loamy sand was used
+df_anddereg = df_anddereg.replace(-9999.0, np.nan)
+
+n = 1.56
+m = 1-1/n
+alpha = 0.036
+df_anddereg['SWC_new'] = 1/((1+(-1*(df_anddereg['LWPpredawn'])/alpha)**n)**m)
+df_anddereg.loc[df_anddereg['SWC'].isnull(),'SWC'] = df_anddereg['SWC_new']
+
+df2 = df_anddereg[['Species','VPD','PARin','SWC','Cond']]
+
 
 df_org['PARin'] = df_org['solar']*0.45*4.57
 
-df1 = df_org[['Species','VPD','Tair','Patm','PARin','SWC','Cond']]
+df1 = df_org[['Species','VPD','PARin','SWC','Cond']]
 
 df_combined = df1.append(df2)
 
+df_combined.to_csv(r'D:/Academic/Alta Phd/E-ML models/df_combined.csv', index = False)
+
+print(df_combined.info())
 
 #create dummy variable for species column
 df = pd.get_dummies(df_combined, drop_first=True)
+
+
 
 #check for multo-collinearty and linearity
 
