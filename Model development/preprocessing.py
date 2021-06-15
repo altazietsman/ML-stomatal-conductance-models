@@ -64,8 +64,7 @@ x_scaled = scaler.fit_transform(x)
 #Change scaled variables into dataframe
 x_standard = pd.DataFrame(x_scaled, columns = x.columns)
 
-x_standard = x_standard.fillna(x_standard.mean())
-
+#x_standard = x_standard.fillna(x_standard.mean())
 r,p = stats.pearsonr(y,x_standard['SWC'])
 
 print('p: ',p)
@@ -83,3 +82,4 @@ x_train60, x_test60, y_train60, y_test60 = (train_test_split(x_standard,y, test_
 x_train70, x_test70, y_train70, y_test70 = (train_test_split(x_standard,y, test_size = 0.30, random_state = 20))
 x_train80, x_test80, y_train80, y_test80 = (train_test_split(x_standard,y, test_size = 0.20, random_state = 20))
 x_train90, x_test90, y_train90, y_test90 = (train_test_split(x_standard,y, test_size = 0.10, random_state = 20))
+

@@ -8,7 +8,8 @@ import pandas as pd
 from sklearn.ensemble import BaggingRegressor
 from sklearn.ensemble import AdaBoostRegressor
 from time import time
-from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import cross_val_score
+import pickle
 
 
 # Random Forest
@@ -35,6 +36,9 @@ print("Percentage MSE is:", np.sqrt(RMSE))
 
 # calculate R-squared
 r2 = r2_score(y_test, y_predict)
+
+#cross validate score (5-fold)
+print('RF Cross-val score:',cross_val_score(rf,x_test,y_test))
 
 print("Random Forest Regression  r2 is:", r2)
 
@@ -93,6 +97,9 @@ r2_bag = r2_score(y_test, y_rf_bag_pred)
 
 print("Random Forest bootstrap  r2 is:", r2_bag)
 
+#cross validate score (5-fold)
+print('Bootstrap Cross-val score:',cross_val_score(rf_bag,x_test,y_test))
+
 
 plt.plot(y_rf_bag_pred, y_test,'o')
 plt.show()
@@ -125,9 +132,16 @@ r2_bst = r2_score(y_test, y_rf_bst_pred)
 
 print("Random Forest boost  r2 is:", r2_bst)
 
+#cross validate score (5-fold)
+print('RF boost Cross-val score:',cross_val_score(rf_bst,x_test,y_test))
+
 y_plot = list(y_test)
 
 plt.plot(y_rf_bst_pred)
 plt.plot(y_plot)
 plt.show()
 
+#save where you want to save the model
+model_saved_path = 'C:/Users/16983521.STB/ML_model_development/model.pkl'
+
+with open(model_saved_path, 'wb') as file: pickle.dump(rf_bst, file)

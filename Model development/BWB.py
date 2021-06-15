@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 from numpy import exp
 from sklearn.model_selection import train_test_split
 import pandas as pd
+from itertools import product
+
 
 df1 = pd.read_excel('D:/Academic/Alta Phd/E-ML models/Input Data/df.xlsx')
 df_anddereg = pd.read_csv('D:/Academic/Alta Phd/E-ML models/Input Data/AllData_EcologyLetters_Figshare_v1_318.csv')
@@ -95,31 +97,60 @@ df_combined['gsw_bb'] = (g0 + g1*((df_combined['Photo']*df_combined['RH'])/ca))/
 
 df_combined.to_csv(r'D:/Academic/Alta Phd/E-ML models/df_bwb.csv', index = False)
 
+
 #remove na
 
 df_final = df_combined[df_combined['gsw_bb'].notna()]
 
-#plot the predicted v. actual
+#split into x and y
 
-y_pred = list(df_final['gsw_bb'])
-y_act = list(df_final['Cond'])
+x = df_final[['PARin','RH','VPD','SWC','Tair','Photo']]
+y = df_final['Cond']
 
+#split into testing and training datasets
 
-plt.scatter(y_act, y_pred)
+x_train, x_test, y_train, y_test = (train_test_split(x,y, test_size = 0.20, random_state = 20))
+
+#grid search to find optimized fitted parameters (use only x data)
+
+g0 = [0,0.5,1,1.5,2]
+g1 = [5,10,15,20,25]
+
+df_par = pd.DataFrame(list(product(g0, g1)), columns=['g0', 'g1'])
+MSE_par = []
+for i in range(0,5):
+    gsw_bb = (df_par['g0'][i] + df_par['g1'][i] * ((x_train['Photo'] * x_train['RH']) / ca)) / 1000
+    MSE = mean_squared_error(gsw_bb, y_train)
+    MSE_par.append(MSE)
+
+print('MSE min:', min(MSE_par))
+index = MSE_par.index(min(MSE_par))
+print('g0:', df_par['g0'][index])
+print('g1:', df_par['g1'][index])
+
+#from the grid search, the optimized parameters are g0 = 0 and g1 = 15
+#get gsw_bb for test set based on optimized parameters
+
+y_pred = (0 + 15 * ((x_test['Photo'] * x_test['RH']) / ca)) / 1000
+
+plt.scatter(y_test, y_pred)
 plt.show()
 
 #calculate MSE
-MSE = mean_squared_error(y_pred,y_act)
+MSE = mean_squared_error(y_pred,y_test)
+
+print("BWB MSW:", MSE)
 
 print("BWB RMSE is:",np.sqrt(MSE))
 
 #calculate R-squared
-r2 = r2_score(y_act, y_pred)
+r2 = r2_score(y_test, y_pred)
 
 print("BWB  r2 is:",r2)
 
-#count unique values of species
+#save pred. v. actual results
 
-print(df_combined['Species'].value_counts())
+data_tuples = list(zip(y_test,y_pred))
+df_BWB = pd.DataFrame(data_tuples, columns=['actual_gsw','bwb_gsw'])
 
-print(df_combined['Species'].nunique())
+df_BWB.to_csv(r'D:/Academic/Alta Phd/E-ML models/df_bwb_pred.csv', index = False)

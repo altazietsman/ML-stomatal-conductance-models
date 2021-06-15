@@ -6,6 +6,7 @@ from sklearn.metrics import r2_score
 import matplotlib.pyplot as plt
 from time import time
 import pandas as pd
+from sklearn.model_selection import cross_val_score
 
 #linear regression
 dt = DecisionTreeRegressor(random_state=20)
@@ -28,6 +29,10 @@ print("Decision Tree Regression  r2 is:",r2)
 PMSE = MSE / (sum(y_test) / len(y_test))
 
 print("Percentage MSE is:", np.sqrt(PMSE))
+
+#cross validate score (5-fold)
+print('Cross-val score:',cross_val_score(dt,x_test,y_test))
+
 
 #plot the predicted v. actual
 

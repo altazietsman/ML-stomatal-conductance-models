@@ -8,7 +8,7 @@ from time import time
 import pandas as pd
 import statsmodels.api as sm
 from scipy import stats
-
+from sklearn.model_selection import cross_val_score
 
 
 #linear regression
@@ -32,6 +32,10 @@ print("Multivariate Regression  r2 is:",r2)
 PMSE = MSE / (sum(y_test) / len(y_test))
 
 print("Percentage MSE is:", np.sqrt(PMSE))
+
+#cross validate score (5-fold)
+
+print('Cross-val score:',cross_val_score(lm,x_test,y_test))
 
 #plot the predicted v. actual
 
